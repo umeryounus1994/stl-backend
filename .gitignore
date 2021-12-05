@@ -28,3 +28,5 @@ speed-measure-plugin*.json
 # System Files
 .DS_Store
 Thumbs.db
+
+# "start": "node ./bin/www",

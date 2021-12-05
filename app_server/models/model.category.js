@@ -9,7 +9,14 @@ const categorySchema = new schema({
     name:{
         type: String
     },
-    category_image:{
+    description:{
+        type: String
+    },
+    category_icon:{
+        type: String,
+        default:""
+    },
+    category_default_image:{
         type: String,
         default:""
     },

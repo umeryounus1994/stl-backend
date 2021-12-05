@@ -7,15 +7,21 @@ const mediaUpload = require("../../config/media_upload");
 //Add category
 router.post('/add', mediaUpload.fields([
     {
-      name: 'category_image', maxCount: 1
-    }
+      name: 'category_icon', maxCount: 1
+    },
+    {
+        name: 'category_default_image', maxCount: 1
+      }
   ]),function (req, res) {
     var categoryForm = req.body;
 
     console.log(categoryForm)
 
-    if(req.files.category_image){
-        categoryForm.category_image = req.files.category_image[0].location;
+    if(req.files.category_icon){
+        categoryForm.category_icon = req.files.category_icon[0].location;
+    }
+    if(req.files.category_default_image){
+        categoryForm.category_default_image = req.files.category_default_image[0].location;
     }
 
     category.addCategory(categoryForm  ,function (err, categoryResult) {
@@ -102,15 +108,21 @@ router.get('/get_by_id/:categoryId', function (req, res) {
 //Update Pin Category
 router.patch('/update/:categoryId', mediaUpload.fields([
     {
-      name: 'category_image', maxCount: 1
-    }
+        name: 'category_icon', maxCount: 1
+      },
+      {
+          name: 'category_default_image', maxCount: 1
+        }
   ]),function (req, res) {
     var categoryForm = req.body;
     var categoryId = req.params.categoryId;
     console.log(categoryForm)
 
-    if(req.files.category_image){
-        categoryForm.category_image = req.files.category_image[0].location;
+    if(req.files.category_icon){
+        categoryForm.category_icon = req.files.category_icon[0].location;
+    }
+    if(req.files.category_default_image){
+        categoryForm.category_default_image = req.files.category_default_image[0].location;
     }
 
     category.updateCategory(categoryId, categoryForm, {new: true}, function (err, categoryResult) {
