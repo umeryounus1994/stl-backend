@@ -4,7 +4,7 @@ var router = express.Router();
 var variation = require('../controllers/controller.variation.js');
 const mediaUpload = require("../../config/media_upload");
 
-//Add category
+//Add variation
 router.post('/add', mediaUpload.fields([
     {
       name: 'reference_image', maxCount: 1
@@ -15,8 +15,6 @@ router.post('/add', mediaUpload.fields([
   ]),function (req, res) {
     var variationForm = req.body;
 
-    console.log(variationForm)
-
     if(req.files.reference_image){
         variationForm.reference_image = req.files.reference_image[0].location;
     }
@@ -24,6 +22,7 @@ router.post('/add', mediaUpload.fields([
         variationForm.model_image = req.files.model_image[0].location;
     }
 
+    console.log(variationForm);
     variation.addVariation(variationForm  ,function (err, variationResult) {
         if (err) {
             console.log(err);
@@ -45,9 +44,9 @@ router.post('/add', mediaUpload.fields([
 });
 
 
-//Get All categorys List
+//Get All Variation List
 router.get('/get_all', function (req, res) {
-    variation.getAllCategories(function (err, result) {
+    variation.getAllVariation(function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -57,14 +56,14 @@ router.get('/get_all', function (req, res) {
         }
         else if(result.length>0){
             return res.json({
-                message: "category Exist",
+                message: "Variation Exist",
                 status: true,
                 data: result
             });
         }
         else{
             return res.json({ 
-                message: "No Category Exist",
+                message: "No Variation Exist",
                 status: false,
                 data: result
             });
@@ -76,9 +75,9 @@ router.get('/get_all', function (req, res) {
 
 
 
-//Get Category By Id
-router.get('/get_by_id/:categoryId', function (req, res) {
-    variation.getCategoryById(req.params.categoryId, function (err, result) {
+//Get Variation By Id
+router.get('/get_by_id/:variationId', function (req, res) {
+    variation.getVariationById(req.params.variationId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -88,14 +87,14 @@ router.get('/get_by_id/:categoryId', function (req, res) {
         }
         else if(result.length>0){
             return res.json({
-                message: "category Exist",
+                message: "variation Exist",
                 status: true,
                 data: result
             });
         }
         else{
             return res.json({ 
-                message: "No category Exist with this categoryId",
+                message: "No variation Exist with this variation",
                 status: false
             });
         }
@@ -105,8 +104,8 @@ router.get('/get_by_id/:categoryId', function (req, res) {
 });
 
 
-//Update Pin Category
-router.patch('/update/:categoryId', mediaUpload.fields([
+//Update Variation
+router.patch('/update/:variationId', mediaUpload.fields([
     {
         name: 'category_icon', maxCount: 1
       },
@@ -114,18 +113,17 @@ router.patch('/update/:categoryId', mediaUpload.fields([
           name: 'category_default_image', maxCount: 1
         }
   ]),function (req, res) {
-    var categoryForm = req.body;
-    var categoryId = req.params.categoryId;
-    console.log(categoryForm)
+    var variationForm = req.body;
+    var variationId = req.params.variationId;
 
-    if(req.files.category_icon){
-        categoryForm.category_icon = req.files.category_icon[0].location;
+    if(req.files.reference_image){
+        variationForm.reference_image = req.files.reference_image[0].location;
     }
-    if(req.files.category_default_image){
-        categoryForm.category_default_image = req.files.category_default_image[0].location;
+    if(req.files.model_image){
+        variationForm.model_image = req.files.model_image[0].location;
     }
 
-    variation.updateCategory(categoryId, categoryForm, {new: true}, function (err, categoryResult) {
+    variation.updateVariation(variationId, variationForm, {new: true}, function (err, variationResult) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -135,9 +133,9 @@ router.patch('/update/:categoryId', mediaUpload.fields([
         }
         else{
             return res.json({
-                message: "category Updated successfully",
+                message: "Variation Updated successfully",
                 status: true, 
-                data: categoryResult
+                data: variationResult
             });
         }
 
@@ -146,9 +144,9 @@ router.patch('/update/:categoryId', mediaUpload.fields([
 });
 
 
-// Remove category By Id
-router.get('/remove_by_id/:categoryId', function (req, res) {
-    variation.removecategory(req.params.categoryId, function (err, result) {
+// Remove variation By Id
+router.get('/remove_by_id/:variationId', function (req, res) {
+    variation.removeVariation(req.params.variationId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -158,13 +156,13 @@ router.get('/remove_by_id/:categoryId', function (req, res) {
         }
         else if(result){
             return res.json({
-                message: "category Removed",
+                message: "variation Removed",
                 status: true,
             });
         }
         else{
             return res.json({ 
-                message: "category not removed",
+                message: "variation not removed",
                 status: false
             });
         }

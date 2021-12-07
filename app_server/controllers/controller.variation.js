@@ -1,31 +1,31 @@
 var variation =require('../models/model.variation.js');
 
-// Get Category By Id
-module.exports.getCategoryById = (id ,callback) =>  {
+// Get Variation By Id
+module.exports.getVariationById = (id ,callback) =>  {
 	variation.find({_id:id}, callback);
 }
 
-// Get All Categories
-module.exports.getAllCategories = (callback) =>  {
+// Get All Variation
+module.exports.getAllVariation = (callback) =>  {
 	variation.find({state:"active"},callback);
 }
 
-// Add Category
+// Add Variation
 module.exports.addVariation = async (variationForm, callback) => {
 	variation.create(variationForm, callback);
 }
 
 
-// Update Category
-module.exports.updateCategory = async (categoryId, categoryForm, options, callback) => {
-	var query = {_id: categoryId};
-	variation.findOneAndUpdate(query,categoryForm,options, callback);
+// Update Variation
+module.exports.updateVariation = async (variationId, variationForm, options, callback) => {
+	var query = {_id: variationId};
+	variation.findOneAndUpdate(query,variationForm,options, callback);
 }
 
 
 
-// Delete Category   
-module.exports.removeCategory = (id, callback) => {
+// Delete Variation   
+module.exports.removeVariation = (id, callback) => {
     var query = {_id: id};
     variation.remove(query, callback)
 }

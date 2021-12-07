@@ -3,9 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var vuforia = require('vuforiajs');
 const mongoose = require('mongoose');
 global.__basedir = __dirname;
 
+const { accessKey,secretKey } = require('./config/config');
 
 // routes
 var routeCategory = require('./app_server/routes/route.category.js');
@@ -21,8 +23,6 @@ var cors = require('cors')
 var app = express();
 app.use(cors())
 
-// Set up mongoose connection
-//let dev_db_url = 'mongodb+srv://stlbackend:UmerPass2Word@cluster0.fh0h7.mongodb.net/stl?retryWrites=true';
 let dev_db_url = 'mongodb://localhost:27017/STL';
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true }).then(() => console.log('MongoDB connected…'))
@@ -49,12 +49,17 @@ app.get('/', (req, res) => {
 
 });
 
+// var client = vuforia.client({
+//   'accessKey': accessKey,
+//   'secretKey': secretKey,
+// });      
 
 
 app.use('/category', routeCategory);
 app.use('/sub_category', routeSubCategory);
 app.use('/item', routeItem);
 app.use('/admin', routeAdmin);
+app.use('/variation', routeVariation);
 
 
 
