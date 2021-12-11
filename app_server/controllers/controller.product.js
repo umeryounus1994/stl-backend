@@ -1,12 +1,11 @@
 var product =require('../models/model.product.js');
 
 // // Get item By Id
-// module.exports.getItemById = (id ,callback) =>  {
-// 	item.find({_id:id}, callback)
-// 	.populate({path:'sub_category_id', select:[ 'name', 'category_image'],
-// 	populate : { path : 'category_id', select:['name']},
-// });
-// }
+module.exports.getProductById = (id ,callback) =>  {
+	item.find({_id:id}, callback)
+	.populate('categoryId')
+    .populate('variationId')
+}
 
 // // Get All item By subCategoryId
 // module.exports.getAllItemBySubCategoryId = (subCategoryId ,callback) =>  {

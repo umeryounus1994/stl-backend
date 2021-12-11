@@ -119,32 +119,32 @@ router.get('/get_all', function (req, res) {
 
 
 // //Get Item By Id
-// router.get('/get_by_id/:itemId', function (req, res) {
-//     item.getItemById(req.params.itemId, function (err, result) {
-//         if (err) {
-//             console.log(err);
-//             return res.status(500).json({
-//                 message: "Error in Connecting to DB",
-//                 status: false
-//             });
-//         }
-//         else if(result.length>0){
-//             return res.json({
-//                 message: "Item Exist",
-//                 status: true,
-//                 data: result
-//             });
-//         }
-//         else{
-//             return res.json({ 
-//                 message: "No Item Exist with this itemId",
-//                 status: false
-//             });
-//         }
+router.get('/get_by_id/:productId', function (req, res) {
+    product.getProductById(req.params.productId, function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        else if(result.length>0){
+            return res.json({
+                message: "Product Exist",
+                status: true,
+                data: result
+            });
+        }
+        else{
+            return res.json({ 
+                message: "No Product Exist with this Product Id",
+                status: false
+            });
+        }
         
-//     });
+    });
 
-// });
+});
 
 
 //Update Pin Category
