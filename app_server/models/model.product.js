@@ -20,6 +20,10 @@ const productSchema = new schema({
         type: String,
         default: ""
     },
+    targetName: {
+        type: String,
+        default: ""
+    },
     variationFlag:{
         type: String,
         default:""
@@ -35,7 +39,7 @@ const productSchema = new schema({
         type: String,
         default:""
     },
-    heigh:{
+    height:{
         type: String,
         default:""
     },

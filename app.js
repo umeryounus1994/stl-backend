@@ -3,11 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var vuforia = require('vuforiajs');
 const mongoose = require('mongoose');
 global.__basedir = __dirname;
 
-const { accessKey,secretKey } = require('./config/config');
+
 
 // routes
 var routeCategory = require('./app_server/routes/route.category.js');
@@ -49,53 +48,8 @@ app.get('/', (req, res) => {
 });
 app.use('/images', express.static(__dirname + '/images'));
 
-// var client = vuforia.client({
-//   'accessKey': accessKey,
-//   'secretKey': secretKey,
-// });      
-
-// var util = vuforia.util();
-// var target = {
-
-//   // name of the target, unique within a database
-//   'name': 'Argon',
-//   // width of the target in scene unit
-//   'width': 32.0,
-//   // the base64 encoded binary recognition image data
-//   'image': util.encodeFileBase64('./images/argon.jpg'),
-//   // indicates whether or not the target is active for query
-//   'active_flag': true,
-//   // the base64 encoded application metadata associated with the target
-//   'application_metadata': util.encodeBase64('here is some data')
-// };
-
-// client.addTarget(target, function (error, result) {
-
-//   if (error) { // e.g. [Error: AuthenticationFailure]
-
-//       console.error(result);
-//       /* result would look like
-//           {
-//           result_code: 'AuthenticationFailure',
-//           transaction_id: '58b51ddc7a2c4ac58d405027acf5f99a'
-//           }
-//           */
-
-//   } else {
-
-//       console.log(result);
-//       /* result will look like
-//           {
-//           target_id: '93fd6681f1r74b76bg80tf736a11b6a9',
-//           result_code: 'TargetCreated',
-//           transaction_id: 'xf157g63179641c4920728f1650d1626'
-//           }
-//           */
-//   }
-// });
-
 app.use('/category', routeCategory);
-app.use('/item', routeProduct);
+app.use('/products', routeProduct);
 app.use('/admin', routeAdmin);
 app.use('/variation', routeVariation);
 

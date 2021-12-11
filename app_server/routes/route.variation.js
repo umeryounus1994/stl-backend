@@ -1,28 +1,26 @@
 var express = require('express');
 var router = express.Router();
-
+const multer = require('multer');
 var variation = require('../controllers/controller.variation.js');
 const mediaUpload = require("../../config/media_upload");
 
+
 //Add variation
-router.post('/add', mediaUpload.fields([
+router.post('/add',mediaUpload.fields([
     {
       name: 'reference_image', maxCount: 1
     },
     {
         name: 'model_image', maxCount: 1
       }
-  ]),function (req, res) {
+  ]), async function (req, res) {
     var variationForm = req.body;
-
     if(req.files.reference_image){
         variationForm.reference_image = req.files.reference_image[0].location;
     }
     if(req.files.model_image){
         variationForm.model_image = req.files.model_image[0].location;
     }
-
-    console.log(variationForm);
     variation.addVariation(variationForm  ,function (err, variationResult) {
         if (err) {
             console.log(err);
@@ -170,6 +168,7 @@ router.get('/remove_by_id/:variationId', function (req, res) {
     });
 
 });
+
 
 
 module.exports = router;

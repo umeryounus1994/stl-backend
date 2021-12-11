@@ -17,12 +17,11 @@ var product =require('../models/model.product.js');
 // }
 
 // // Get All Items
-// module.exports.getAllItems = (callback) =>  {
-// 	item.find(callback)
-// 	.populate({path:'sub_category_id', select:[ 'name', 'category_image'],
-// 	populate : { path : 'category_id', select:['name']},
-// });
-// }
+module.exports.getAllProducts = (callback) =>  {
+	product.find(callback)
+	.populate('categoryId')
+    .populate('variationId')
+}
 
 // Add item
 module.exports.addProduct = async (productForm, callback) => {
@@ -31,15 +30,15 @@ module.exports.addProduct = async (productForm, callback) => {
 
 
 // Update item
-module.exports.updateItem = async (itemId, itemForm, options, callback) => {
-	var query = {_id: itemId};
+module.exports.updateProduct = async (productId, itemForm, options, callback) => {
+	var query = {_id: productId};
 	product.findOneAndUpdate(query,itemForm,options, callback);
 }
 
 
 
 // Delete item   
-module.exports.removeItem = (id, callback) => {
+module.exports.removeProduct = (id, callback) => {
     var query = {_id: id};
     product.remove(query, callback)
 }
