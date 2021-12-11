@@ -90,32 +90,32 @@ router.get('/get_all', function (req, res) {
 
 
 // //Get All Items By subCategoryId
-// router.get('/get_all_by_subcategoryid/:subCategoryId', function (req, res) {
-//     item.getAllItemBySubCategoryId(req.params.subCategoryId, function (err, result) {
-//         if (err) {
-//             console.log(err);
-//             return res.status(500).json({
-//                 message: "Error in Connecting to DB",
-//                 status: false
-//             });
-//         }
-//         else if(result.length>0){
-//             return res.json({
-//                 message: "Item Exist",
-//                 status: true,
-//                 data: result
-//             });
-//         }
-//         else{
-//             return res.json({ 
-//                 message: "No Item Exist with this subCategoryId",
-//                 status: false
-//             });
-//         }
+router.get('/get_all_by_categoryid/:CategoryId', function (req, res) {
+    product.getAllProductsByCategoryId(req.params.CategoryId, function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        else if(result.length>0){
+            return res.json({
+                message: "Product Exist",
+                status: true,
+                data: result
+            });
+        }
+        else{
+            return res.json({ 
+                message: "No Product Exist with this CategoryId",
+                status: false
+            });
+        }
         
-//     });
+    });
 
-// });
+});
 
 
 // //Get Item By Id

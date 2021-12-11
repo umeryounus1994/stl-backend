@@ -8,12 +8,11 @@ module.exports.getProductById = (id ,callback) =>  {
 }
 
 // // Get All item By subCategoryId
-// module.exports.getAllItemBySubCategoryId = (subCategoryId ,callback) =>  {
-// 	item.find({sub_category_id: subCategoryId}, callback)
-// 	.populate({path:'sub_category_id', select:[ 'name', 'category_image'],
-// 	populate : { path : 'category_id', select:['name']},
-// });
-// }
+module.exports.getAllProductsByCategoryId = (CategoryId ,callback) =>  {
+	item.find({ategoryId: CategoryId}, callback)
+	.populate('categoryId')
+    .populate('variationId')
+}
 
 // // Get All Items
 module.exports.getAllProducts = (callback) =>  {
