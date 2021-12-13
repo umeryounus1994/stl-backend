@@ -13,6 +13,7 @@ var routeCategory = require('./app_server/routes/route.category.js');
 var routeProduct = require('./app_server/routes/route.product.js');
 var routeAdmin = require('./app_server/routes/route.admin.js');
 var routeVariation = require('./app_server/routes/route.variation.js');
+var routeMenu = require('./app_server/routes/route.menu.js');
 
 
 var cors = require('cors')
@@ -52,6 +53,7 @@ app.use('/category', routeCategory);
 app.use('/products', routeProduct);
 app.use('/admin', routeAdmin);
 app.use('/variation', routeVariation);
+app.use('/menu', routeMenu);
 
 
 
