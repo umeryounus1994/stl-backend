@@ -15,6 +15,7 @@ var routeAdmin = require('./app_server/routes/route.admin.js');
 var routeVariation = require('./app_server/routes/route.variation.js');
 var routeMenu = require('./app_server/routes/route.menu.js');
 var routeCompany = require('./app_server/routes/route.company.js');
+var routeLanguage = require('./app_server/routes/route.language.js');
 
 
 var cors = require('cors')
@@ -55,7 +56,8 @@ app.use('/products', routeProduct);
 app.use('/admin', routeAdmin);
 app.use('/variation', routeVariation);
 app.use('/menu', routeMenu);
-app.use('/company',routeCompany)
+app.use('/company',routeCompany);
+app.use('/language',routeLanguage)
 
 
 
