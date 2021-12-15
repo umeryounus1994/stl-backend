@@ -7,7 +7,7 @@ module.exports.getLanguageById = (id ,callback) =>  {
 
 // Get All Variation
 module.exports.getAllLanguage = (callback) =>  {
-	language.find({state:"active"},callback);
+	language.find(null,callback);
 }
 
 // Add Variation

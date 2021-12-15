@@ -103,12 +103,11 @@ router.patch('/update/:languageId', mediaUpload.fields([
       }
   ]),function (req, res) {
     var languageForm = req.body;
-    var companyId = req.params.companyId;
+    var companyId = req.params.languageId;
 
     if(req.files.logo){
         languageForm.logo = req.files.logo[0].location;
     }
-
     language.updateLanguage(companyId, languageForm, {new: true}, function (err, variationResult) {
         if (err) {
             console.log(err);
@@ -132,29 +131,36 @@ router.patch('/update/:languageId', mediaUpload.fields([
 
 // Remove variation By Id
 router.get('/remove_by_id/:languageId', function (req, res) {
-    language.removeLanguage(req.params.languageId, function (err, result) {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({
-                message: "Error in Connecting to DB",
-                status: false
-            });
-        }
-        else if(result){
-            return res.json({
-                message: "Language Removed",
-                status: true,
-            });
-        }
-        else{
-            return res.json({ 
-                message: "Company not removed",
-                status: false
-            });
+    language.getLanguageById(req.params.languageId, function(err, reslt) {
+        var lgForm;
+        if(reslt.length > 0){
+            if(reslt[0].state == 'deleted' || reslt[0].state == 'inactive' ){
+                lgForm = {state : "active"};
+            } else {
+                lgForm = {state : "inactive"};
+            }
         }
         
+        language.updateLanguage(req.params.languageId, lgForm, {new: true}, function (err, variationResult) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Error in Connecting to DB",
+                    status: false
+                });
+            }
+            else{
+                return res.json({
+                    message: "Language Updated successfully",
+                    status: true, 
+                    data: variationResult
+                });
+            }
+    
+        });
+    
     });
-
+ 
 });
 
 
