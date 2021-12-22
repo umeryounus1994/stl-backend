@@ -10,6 +10,9 @@ const https = require('https');
 router.post('/add', mediaUpload.fields([
     {
       name: 'model', maxCount: 1
+    },
+    {
+        name: 'productImage', maxCount: 1
     }
   ]),async function (req, res) {
     var productForm = req.body;
@@ -39,6 +42,7 @@ router.post('/add', mediaUpload.fields([
         productForm.model = req.files.model[0].location;
         productForm.targetId = respp.targetId;
         productForm.targetName = respp.targetName;
+        productForm.productImage = req.files.productImage[0].location;
     }
     product.addProduct(productForm  ,function (err, result) {
         if (err) {
@@ -151,6 +155,9 @@ router.get('/get_by_id/:productId', function (req, res) {
 router.patch('/update/:productId',  mediaUpload.fields([
     {
       name: 'model', maxCount: 1
+    },
+    {
+        name: 'productImage', maxCount: 1
     }
   ]),async function (req, res) {
     var productForm = req.body;
@@ -181,6 +188,10 @@ router.patch('/update/:productId',  mediaUpload.fields([
         productForm.model = req.files.model[0].location;
         productForm.targetId = respp.targetId;
         productForm.targetName = respp.targetName;
+        productForm.productImage = req.files.productImage[0].location;
+    }  
+    if(req.files.productImage) {
+        productForm.productImage = req.files.productImage[0].location;
     }
 
     product.updateProduct(productId, productForm, {new: true}, function (err, itemResult) {

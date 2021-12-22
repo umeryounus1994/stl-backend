@@ -16,6 +16,10 @@ const productSchema = new schema({
         type: String,
         default:""
     },
+    productImage:{
+        type: String,
+        default:""
+    },
     targetId: {
         type: String,
         default: ""
