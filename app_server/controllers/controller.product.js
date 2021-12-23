@@ -9,7 +9,7 @@ module.exports.getProductById = (id ,callback) =>  {
 
 // // Get All item By subCategoryId
 module.exports.getAllProductsByCategoryId = (CategoryId ,callback) =>  {
-	product.find({ategoryId: CategoryId}, callback)
+	product.find({categoryId: CategoryId}, callback)
 	.populate('categoryId')
     .populate('variationId')
 }
