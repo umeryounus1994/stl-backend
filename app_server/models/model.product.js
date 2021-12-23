@@ -20,6 +20,10 @@ const productSchema = new schema({
         type: String,
         default:""
     },
+    scannedImage: {
+        type: String,
+        default:""
+    },
     targetId: {
         type: String,
         default: ""

@@ -13,12 +13,15 @@ router.post('/add', mediaUpload.fields([
     },
     {
         name: 'productImage', maxCount: 1
+    },
+    {
+        name: 'scannedImage', maxCount: 1
     }
   ]),async function (req, res) {
     var productForm = req.body;
-    if(req.files.model){
-    var fileName =req.files.model[0].originalname;
-    await getRemoteFile('./images/'+fileName,req.files.model[0].location);
+    if(req.files.scannedImage){
+    var fileName =req.files.scannedImage[0].originalname;
+    await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
     
     let respp = await vuforiaUpload('./images/'+fileName,50,'file desc is here');
     if(respp == "TargetNameExist"){
@@ -43,8 +46,8 @@ router.post('/add', mediaUpload.fields([
         productForm.targetId = respp.targetId;
         productForm.targetName = respp.targetName;
         productForm.productImage = req.files.productImage[0].location;
+        productForm.scannedImage = req.files.scannedImage[0].location;
     }
-    console.log(productForm);
     product.addProduct(productForm  ,function (err, result) {
         if (err) {
             console.log(err);
@@ -159,13 +162,16 @@ router.patch('/update/:productId',  mediaUpload.fields([
     },
     {
         name: 'productImage', maxCount: 1
+    },
+    {
+        name: 'scannedImage', maxCount: 1
     }
   ]),async function (req, res) {
     var productForm = req.body;
     var productId = req.params.productId;
-    if(req.files.model){
-    var fileName =req.files.model[0].originalname;
-    await getRemoteFile('./images/'+fileName,req.files.model[0].location);
+    if(req.files.scannedImage){
+    var fileName =req.files.scannedImage[0].originalname;
+    await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
     
     let respp = await vuforiaUpload('./images/'+fileName,50,'file desc is here');
     if(respp == "TargetNameExist"){
@@ -190,9 +196,13 @@ router.patch('/update/:productId',  mediaUpload.fields([
         productForm.targetId = respp.targetId;
         productForm.targetName = respp.targetName;
         productForm.productImage = req.files.productImage[0].location;
+        productForm.scannedImage = req.files.scannedImage[0].location;
     }  
     if(req.files.productImage) {
         productForm.productImage = req.files.productImage[0].location;
+    }
+    if(req.files.model) {
+        productForm.model = req.files.model[0].location;
     }
 
     product.updateProduct(productId, productForm, {new: true}, function (err, itemResult) {
