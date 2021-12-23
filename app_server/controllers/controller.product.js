@@ -2,14 +2,14 @@ var product =require('../models/model.product.js');
 
 // // Get item By Id
 module.exports.getProductById = (id ,callback) =>  {
-	item.find({_id:id}, callback)
+	product.find({_id:id}, callback)
 	.populate('categoryId')
     .populate('variationId')
 }
 
 // // Get All item By subCategoryId
 module.exports.getAllProductsByCategoryId = (CategoryId ,callback) =>  {
-	item.find({ategoryId: CategoryId}, callback)
+	product.find({ategoryId: CategoryId}, callback)
 	.populate('categoryId')
     .populate('variationId')
 }

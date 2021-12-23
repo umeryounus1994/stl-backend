@@ -44,6 +44,7 @@ router.post('/add', mediaUpload.fields([
         productForm.targetName = respp.targetName;
         productForm.productImage = req.files.productImage[0].location;
     }
+    console.log(productForm);
     product.addProduct(productForm  ,function (err, result) {
         if (err) {
             console.log(err);
