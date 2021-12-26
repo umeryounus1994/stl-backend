@@ -1,22 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
-var parts = require('../controllers/controller.parts.js');
+var texture = require('../controllers/controller.texture.js');
 const mediaUpload = require("../../config/media_upload");
 
 //Add category
 router.post('/add', mediaUpload.fields([
     {
-      name: 'imageFile', maxCount: 1
+      name: 'textureFiles', maxCount: 20
     }
   ]),function (req, res) {
     var categoryForm = req.body;
-
-
-    if(req.files.imageFile){
-        categoryForm.imageFile = req.files.imageFile[0].location;
-    }
-    parts.addParts(categoryForm  ,function (err, categoryResult) {
+    var textureFiles = [];
+    req.files.textureFiles.forEach((element) => {
+        var obj = {};
+        obj["imagePath"] = element.location;
+        textureFiles.push(obj);
+      });
+    categoryForm.textureFiles = textureFiles;
+    texture.addTexture(categoryForm  ,function (err, categoryResult) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -26,7 +28,7 @@ router.post('/add', mediaUpload.fields([
         }
         else{
             return res.json({
-                message: "Part Added successfully",
+                message: "Textures Added successfully",
                 status: true, 
                 data: categoryResult
             });
@@ -36,8 +38,8 @@ router.post('/add', mediaUpload.fields([
 
 });
 
-router.get('/get_parts_by_productId/:productId', function (req, res) {
-    parts.getAllPartsByProductId(req.params.productId, function (err, result) {
+router.get('/get_textures_by_partsId/:partsId', function (req, res) {
+    texture.getAllTexturesByPartsId(req.params.partsId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -47,14 +49,14 @@ router.get('/get_parts_by_productId/:productId', function (req, res) {
         }
         else if(result.length>0){
             return res.json({
-                message: "Part Exist",
+                message: "Texture Exist",
                 status: true,
                 data: result
             });
         }
         else{
             return res.json({ 
-                message: "No Part Exist with this ProductId",
+                message: "No Texture Exist with this Part ID",
                 status: false
             });
         }
@@ -66,7 +68,7 @@ router.get('/get_parts_by_productId/:productId', function (req, res) {
 
 //Get All categorys List
 router.get('/get_all', function (req, res) {
-    parts.getAllParts(function (err, result) {
+    texture.getAllTextures(function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -96,8 +98,8 @@ router.get('/get_all', function (req, res) {
 
 
 //Get Category By Id
-router.get('/get_by_id/:partsId', function (req, res) {
-    parts.getPartsById(req.params.partsId, function (err, result) {
+router.get('/get_by_id/:textureId', function (req, res) {
+    texture.getTextureById(req.params.textureId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -107,14 +109,14 @@ router.get('/get_by_id/:partsId', function (req, res) {
         }
         else if(result.length>0){
             return res.json({
-                message: "Parts Exist",
+                message: "Texture Exist",
                 status: true,
                 data: result
             });
         }
         else{
             return res.json({ 
-                message: "No Parts Exist with this partId",
+                message: "No Texture Exist with this textureId",
                 status: false
             });
         }
@@ -125,19 +127,19 @@ router.get('/get_by_id/:partsId', function (req, res) {
 
 
 //Update Pin Category
-router.patch('/update/:partsId', mediaUpload.fields([
+router.patch('/update/:textureId', mediaUpload.fields([
     {
         name: 'imageFile', maxCount: 1
       }
   ]),function (req, res) {
     var categoryForm = req.body;
-    var partsId = req.params.partsId;
+    var textureId = req.params.textureId;
 
     if(req.files.imageFile){
         categoryForm.imageFile = req.files.imageFile[0].location;
     }
 
-    parts.updateParts(partsId, categoryForm, {new: true}, function (err, categoryResult) {
+    texture.updateTexture(textureId, categoryForm, {new: true}, function (err, categoryResult) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -147,7 +149,7 @@ router.patch('/update/:partsId', mediaUpload.fields([
         }
         else{
             return res.json({
-                message: "Part Updated successfully",
+                message: "Texture Updated successfully",
                 status: true, 
                 data: categoryResult
             });
@@ -159,8 +161,8 @@ router.patch('/update/:partsId', mediaUpload.fields([
 
 
 // Remove category By Id
-router.get('/remove_by_id/:partsId', function (req, res) {
-    parts.removeParts(req.params.partsId, function (err, result) {
+router.get('/remove_by_id/:textureId', function (req, res) {
+    texture.removeTexture(req.params.textureId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -170,13 +172,13 @@ router.get('/remove_by_id/:partsId', function (req, res) {
         }
         else if(result){
             return res.json({
-                message: "parts Removed",
+                message: "Texture Removed",
                 status: true,
             });
         }
         else{
             return res.json({ 
-                message: "parts not removed",
+                message: "Texture not removed",
                 status: false
             });
         }

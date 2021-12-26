@@ -18,6 +18,10 @@ const partSchema = new schema({
     productId:{
         type: mongoose.Schema.Types.ObjectId, ref: 'Product',
     },
+    state:{
+        type: String,
+        default:"active"
+    },
 })
 
 

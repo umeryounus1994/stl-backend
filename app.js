@@ -18,7 +18,7 @@ var routeCompany = require('./app_server/routes/route.company.js');
 var routeLanguage = require('./app_server/routes/route.language.js');
 var routeTranslation = require('./app_server/routes/route.translation.js');
 var routeParts = require('./app_server/routes/route.parts.js');
-
+var routeTexture = require('./app_server/routes/route.texture.js');
 var cors = require('cors')
 
 
@@ -61,6 +61,7 @@ app.use('/company',routeCompany);
 app.use('/language',routeLanguage);
 app.use('/translation',routeTranslation);
 app.use('/parts',routeParts);
+app.use('/texture',routeTexture);
 
 
 // catch 404 and forward to error handler

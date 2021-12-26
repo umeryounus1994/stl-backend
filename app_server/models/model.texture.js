@@ -24,6 +24,10 @@ const textureSchema = new schema({
     partId:{
         type: mongoose.Schema.Types.ObjectId, ref: 'Part',
     },
+    state:{
+        type: String,
+        default:"active"
+    },
 })
 
 
