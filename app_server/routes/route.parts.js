@@ -1,30 +1,22 @@
 var express = require('express');
 var router = express.Router();
 
-var category = require('../controllers/controller.category.js');
+var parts = require('../controllers/controller.parts.js');
 const mediaUpload = require("../../config/media_upload");
 
 //Add category
 router.post('/add', mediaUpload.fields([
     {
-      name: 'category_icon', maxCount: 1
-    },
-    {
-        name: 'category_default_image', maxCount: 1
-      }
+      name: 'imageFile', maxCount: 1
+    }
   ]),function (req, res) {
     var categoryForm = req.body;
 
-    console.log(categoryForm)
 
-    if(req.files.category_icon){
-        categoryForm.category_icon = req.files.category_icon[0].location;
+    if(req.files.imageFile){
+        categoryForm.imageFile = req.files.imageFile[0].location;
     }
-    if(req.files.category_default_image){
-        categoryForm.category_default_image = req.files.category_default_image[0].location;
-    }
-
-    category.addCategory(categoryForm  ,function (err, categoryResult) {
+    parts.addParts(categoryForm  ,function (err, categoryResult) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -34,7 +26,7 @@ router.post('/add', mediaUpload.fields([
         }
         else{
             return res.json({
-                message: "category Added successfully",
+                message: "Part Added successfully",
                 status: true, 
                 data: categoryResult
             });
@@ -44,10 +36,8 @@ router.post('/add', mediaUpload.fields([
 
 });
 
-
-//Get All categorys List
-router.get('/get_all', function (req, res) {
-    category.getAllCategories(function (err, result) {
+router.get('/get_all_by_productId/:productId', function (req, res) {
+    parts.getAllPartsByProductId(req.params.productId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -57,14 +47,43 @@ router.get('/get_all', function (req, res) {
         }
         else if(result.length>0){
             return res.json({
-                message: "category Exist",
+                message: "Part Exist",
                 status: true,
                 data: result
             });
         }
         else{
             return res.json({ 
-                message: "No Category Exist",
+                message: "No Part Exist with this ProductId",
+                status: false
+            });
+        }
+        
+    });
+
+});
+
+
+//Get All categorys List
+router.get('/get_all', function (req, res) {
+    parts.getAllParts(function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        else if(result.length>0){
+            return res.json({
+                message: "Parts Exist",
+                status: true,
+                data: result
+            });
+        }
+        else{
+            return res.json({ 
+                message: "No Parts Exist",
                 status: false,
                 data: result
             });
@@ -77,8 +96,8 @@ router.get('/get_all', function (req, res) {
 
 
 //Get Category By Id
-router.get('/get_by_id/:categoryId', function (req, res) {
-    category.getCategoryById(req.params.categoryId, function (err, result) {
+router.get('/get_by_id/:partsId', function (req, res) {
+    parts.getPartsById(req.params.partsId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -88,14 +107,14 @@ router.get('/get_by_id/:categoryId', function (req, res) {
         }
         else if(result.length>0){
             return res.json({
-                message: "category Exist",
+                message: "Parts Exist",
                 status: true,
                 data: result
             });
         }
         else{
             return res.json({ 
-                message: "No category Exist with this categoryId",
+                message: "No Parts Exist with this partId",
                 status: false
             });
         }
@@ -106,26 +125,19 @@ router.get('/get_by_id/:categoryId', function (req, res) {
 
 
 //Update Pin Category
-router.patch('/update/:categoryId', mediaUpload.fields([
+router.patch('/update/:partsId', mediaUpload.fields([
     {
-        name: 'category_icon', maxCount: 1
-      },
-      {
-          name: 'category_default_image', maxCount: 1
-        }
+        name: 'imageFile', maxCount: 1
+      }
   ]),function (req, res) {
     var categoryForm = req.body;
-    var categoryId = req.params.categoryId;
-    console.log(categoryForm)
+    var partsId = req.params.partsId;
 
-    if(req.files.category_icon){
-        categoryForm.category_icon = req.files.category_icon[0].location;
-    }
-    if(req.files.category_default_image){
-        categoryForm.category_default_image = req.files.category_default_image[0].location;
+    if(req.files.imageFile){
+        categoryForm.imageFile = req.files.imageFile[0].location;
     }
 
-    category.updateCategory(categoryId, categoryForm, {new: true}, function (err, categoryResult) {
+    parts.updateParts(partsId, categoryForm, {new: true}, function (err, categoryResult) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -135,7 +147,7 @@ router.patch('/update/:categoryId', mediaUpload.fields([
         }
         else{
             return res.json({
-                message: "category Updated successfully",
+                message: "Part Updated successfully",
                 status: true, 
                 data: categoryResult
             });
@@ -147,8 +159,8 @@ router.patch('/update/:categoryId', mediaUpload.fields([
 
 
 // Remove category By Id
-router.get('/remove_by_id/:categoryId', function (req, res) {
-    category.removeCategory(req.params.categoryId, function (err, result) {
+router.get('/remove_by_id/:partsId', function (req, res) {
+    parts.removeParts(req.params.partsId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -158,13 +170,13 @@ router.get('/remove_by_id/:categoryId', function (req, res) {
         }
         else if(result){
             return res.json({
-                message: "category Removed",
+                message: "parts Removed",
                 status: true,
             });
         }
         else{
             return res.json({ 
-                message: "category not removed",
+                message: "parts not removed",
                 status: false
             });
         }
