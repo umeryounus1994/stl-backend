@@ -17,38 +17,17 @@ router.post('/add', mediaUpload.fields([
     {
         name: 'scannedImage', maxCount: 1
     }
-  ]),async function (req, res) {
+  ]), function (req, res) {
     var productForm = req.body;
-    if(req.files.scannedImage){
-    var fileName =req.files.scannedImage[0].originalname;
-    await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
     
-    let respp = await vuforiaUpload('./images/'+fileName,50,'file desc is here');
-    if(respp == "TargetNameExist"){
-        return res.status(500).json({
-            message: "Target with same name exist",
-            status: false
-        });
-    }
-    if(respp == "BadImage"){
-        return res.status(500).json({
-            message: "Bad Target Image",
-            status: false
-        });
-    }
-    if(respp == "Failed"){
-        return res.status(500).json({
-            message: "Failed to Upload Image to vuforia",
-            status: false
-        });
-    }
+
+    if(req.files.scannedImage){
         productForm.model = req.files.model[0].location;
-        productForm.targetId = respp.targetId;
-        productForm.targetName = respp.targetName;
         productForm.productImage = req.files.productImage[0].location;
         productForm.scannedImage = req.files.scannedImage[0].location;
     }
-    product.addProduct(productForm  ,function (err, result) {
+  
+    product.addProduct(productForm  ,async function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -57,11 +36,42 @@ router.post('/add', mediaUpload.fields([
             });
         }
         else{
+        var fileName =req.files.scannedImage[0].originalname;
+        await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
+        var vuforiaMetaData = result._id + "*" + productForm.name + "*" +
+        productForm.model + "*" + productForm.productImage + "*" +
+        productForm.defaultScaling;
+        let respp = await vuforiaUpload('./images/'+fileName,50,vuforiaMetaData);
+        if(respp == "TargetNameExist"){
+            return res.status(500).json({
+                message: "Target with same name exist",
+                status: false
+            });
+        }
+        if(respp == "BadImage"){
+            return res.status(500).json({
+                message: "Bad Target Image",
+                status: false
+            });
+        }
+        if(respp == "Failed"){
+            return res.status(500).json({
+                message: "Failed to Upload Image to vuforia",
+                status: false
+            });
+        }
+        var form = {
+            targetId : respp.targetId,
+            targetName : respp.targetName
+        };
+        product.updateProduct(result._id, form, {new: true}, function (errr, itemResult) {
             return res.json({
                 message: "Product Added successfully",
                 status: true, 
                 data: result
             });
+        });
+        
         }
     });
 });
@@ -172,8 +182,11 @@ router.patch('/update/:productId',  mediaUpload.fields([
     if(req.files.scannedImage){
     var fileName =req.files.scannedImage[0].originalname;
     await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
-    
-    let respp = await vuforiaUpload('./images/'+fileName,50,'file desc is here');
+    var vuforiaMetaData = productId + "*" + productForm.name + "*" +
+        productForm.model + "*" + productForm.productImage + "*" +
+        productForm.defaultScaling;
+        
+    let respp = await vuforiaUpload('./images/'+fileName,50,vuforiaMetaData);
     if(respp == "TargetNameExist"){
         return res.status(500).json({
             message: "Target with same name exist",

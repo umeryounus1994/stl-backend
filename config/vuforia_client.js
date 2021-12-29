@@ -8,7 +8,7 @@ var client = vuforia.client({
 
 var util = vuforia.util();
 
-module.exports = async (file,width,text) => new Promise(
+module.exports = async (file,width, metaData) => new Promise(
     (resolve, reject) => {
       var targetName = makeid(7);
       var target = {
@@ -16,7 +16,7 @@ module.exports = async (file,width,text) => new Promise(
         'width': width,
         'image': util.encodeFileBase64(file),
         'active_flag': true,
-        'application_metadata': util.encodeBase64(text)
+        'application_metadata': util.encodeBase64(metaData)
       };
       
       client.addTarget(target, function (error, result) {
