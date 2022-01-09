@@ -9,6 +9,9 @@ const languageSchema = new schema({
     name:{
         type: String
     },
+    shortName:{
+        type: String
+    },
     logo:{
         type: String
     },

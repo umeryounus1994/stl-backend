@@ -5,10 +5,17 @@ module.exports.getTranslationById = (id ,callback) =>  {
 	translation.find({_id:id}, callback);
 }
 
+module.exports.getAllTranslationByLanguageCategory = (langaugeId, categoryId ,callback) =>  {
+	translation.find({languageId:langaugeId,categoryId:categoryId}, callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
+}
+
 // Get All Variation
 module.exports.getAllTranslation = (callback) =>  {
 	translation.find(null,callback)
-    .populate('languageId');
+    .populate('languageId')
+	.populate('categoryId','name');
 }
 
 // Add Variation

@@ -4,16 +4,15 @@ const schema = mongoose.Schema;
 
 // Product Schema
 
-const translationSchema = new schema({
-    
-    actualText:{
-        type: String
-    },
+const translationSchema = new schema({   
     translatedText:{
         type: String
     },
     languageId:{
         type: mongoose.Schema.Types.ObjectId, ref: 'Language',
+    },
+    categoryId:{
+        type: mongoose.Schema.Types.ObjectId, ref: 'TranslationCategories',
     },
     state:{
         type: String,

@@ -15,8 +15,6 @@ router.post('/add', mediaUpload.fields([
   ]),function (req, res) {
     var categoryForm = req.body;
 
-    console.log(categoryForm)
-
     if(req.files.category_icon){
         categoryForm.category_icon = req.files.category_icon[0].location;
     }
@@ -116,7 +114,6 @@ router.patch('/update/:categoryId', mediaUpload.fields([
   ]),function (req, res) {
     var categoryForm = req.body;
     var categoryId = req.params.categoryId;
-    console.log(categoryForm)
 
     if(req.files.category_icon){
         categoryForm.category_icon = req.files.category_icon[0].location;

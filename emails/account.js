@@ -7,7 +7,6 @@ sgMail.setApiKey(sgMailApiKey)
 // ${price}
 module.exports.sendEmail = (email, password) => {
     
-  console.log(email +" : "+password)
     sgMail.send({
         to: email,
         from: 'isnitchedapp@gmail.com',
