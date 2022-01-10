@@ -137,8 +137,9 @@ router.get('/get_all/:languageId/:categoryId', function (req, res) {
 
 
 // //Get All Items By subCategoryId
-router.get('/get_all_by_categoryid/:CategoryId', function (req, res) {
-    product.getAllProductsByCategoryId(req.params.CategoryId, function (err, result) {
+router.get('/get_all_by_categoryid/:CategoryId/:languageId/:LangCatId', function (req, res) {
+    product.getAllProductsByCategoryId(req.params.CategoryId,req.params.languageId,
+        req.params.LangCatId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
@@ -166,8 +167,9 @@ router.get('/get_all_by_categoryid/:CategoryId', function (req, res) {
 
 
 // //Get Item By Id
-router.get('/get_by_id/:productId', function (req, res) {
-    product.getProductById(req.params.productId, function (err, result) {
+router.get('/get_by_id/:productId/:languageId/:LangCatId', function (req, res) {
+    product.getProductById(req.params.productId,req.params.languageId,
+        req.params.LangCatId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
