@@ -7,7 +7,15 @@ module.exports.getCategoryById = (id ,callback) =>  {
 
 // Get All Categories
 module.exports.getAllCategories = (callback) =>  {
-	category.find({state:"active"},callback);
+	category.find({state:"active"},callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
+}
+
+module.exports.getAllByLanguageCategory = (langaugeId, categoryId ,callback) =>  {
+	category.find({languageId:langaugeId,categoryId:categoryId}, callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
 }
 
 // Add Category

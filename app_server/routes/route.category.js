@@ -72,6 +72,35 @@ router.get('/get_all', function (req, res) {
 
 });
 
+router.get('/get_all/:languageId/:categoryId', function (req, res) {
+    category.getAllByLanguageCategory(req.params.languageId,
+        req.params.categoryId,function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        else if(result.length>0){
+            return res.json({
+                message: "Category Exist",
+                status: true,
+                data: result
+            });
+        }
+        else{
+            return res.json({ 
+                message: "No Category Exist",
+                status: false,
+                data: result
+            });
+        }
+        
+    });
+
+});
+
 
 
 //Get Category By Id

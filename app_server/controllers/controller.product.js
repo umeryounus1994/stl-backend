@@ -5,6 +5,8 @@ module.exports.getProductById = (id ,callback) =>  {
 	product.find({_id:id}, callback)
 	.populate('categoryId')
     .populate('variationId')
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('languageCategoryId','name');
 }
 
 // // Get All item By subCategoryId
@@ -12,6 +14,14 @@ module.exports.getAllProductsByCategoryId = (CategoryId ,callback) =>  {
 	product.find({categoryId: CategoryId}, callback)
 	.populate('categoryId')
     .populate('variationId')
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('languageCategoryId','name');
+}
+
+module.exports.getAllByLanguageCategory = (langaugeId, categoryId ,callback) =>  {
+	variation.find({languageId:langaugeId,languageCategoryId:categoryId}, callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('languageCategoryId','name');
 }
 
 // // Get All Items
@@ -19,6 +29,8 @@ module.exports.getAllProducts = (callback) =>  {
 	product.find(callback)
 	.populate('categoryId')
     .populate('variationId')
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('languageCategoryId','name');
 }
 
 // Add item

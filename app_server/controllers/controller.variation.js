@@ -7,9 +7,16 @@ module.exports.getVariationById = (id ,callback) =>  {
 
 // Get All Variation
 module.exports.getAllVariation = (callback) =>  {
-	variation.find({state:"active"},callback);
+	variation.find({state:"active"},callback)
+	.populate('languageId')
+	.populate('categoryId','name');
 }
 
+module.exports.getAllByLanguageCategory = (langaugeId, categoryId ,callback) =>  {
+	variation.find({languageId:langaugeId,categoryId:categoryId}, callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
+}
 // Add Variation
 module.exports.addVariation = async (variationForm, callback) => {
 	variation.create(variationForm, callback);

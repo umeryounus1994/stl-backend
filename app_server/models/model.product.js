@@ -75,6 +75,16 @@ const productSchema = new schema({
         type: String,
         default:""
     },
+    languageId:{
+        type: mongoose.Schema.Types.ObjectId, ref: 'Language',
+    },
+    languageCategoryId:{
+        type: mongoose.Schema.Types.ObjectId, ref: 'TranslationCategories',
+    },
+    state:{
+        type: String,
+        default:"active"
+    },
 })
 
 

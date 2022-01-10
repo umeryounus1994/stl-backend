@@ -106,6 +106,35 @@ router.get('/get_all', function (req, res) {
 
 });
 
+router.get('/get_all/:languageId/:categoryId', function (req, res) {
+    product.getAllByLanguageCategory(req.params.languageId,
+        req.params.categoryId,function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        else if(result.length>0){
+            return res.json({
+                message: "Product Exist",
+                status: true,
+                data: result
+            });
+        }
+        else{
+            return res.json({ 
+                message: "No Product Exist",
+                status: false,
+                data: result
+            });
+        }
+        
+    });
+
+});
+
 
 // //Get All Items By subCategoryId
 router.get('/get_all_by_categoryid/:CategoryId', function (req, res) {
