@@ -32,7 +32,7 @@
     "node-excel-export": "^1.4.4",
     "stripe": "^8.115.0",
     "tinify": "^1.6.0-beta.2",
-    "vuforiajs": "^0.2.5",
+    "vuforia-api": "^0.3.1",
     "web3": "^1.2.11"
   }
 }

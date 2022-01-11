@@ -1,4 +1,4 @@
-var vuforia = require('vuforiajs');
+var vuforia = require('vuforia-api');
 const { accessKey,secretKey } = require('../config/config');
 
 var client = vuforia.client({
