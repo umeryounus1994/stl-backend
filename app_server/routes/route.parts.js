@@ -36,8 +36,10 @@ router.post('/add', mediaUpload.fields([
 
 });
 
-router.get('/get_parts_by_productId/:productId', function (req, res) {
-    parts.getAllPartsByProductId(req.params.productId, function (err, result) {
+router.get('/get_parts_by_productId/:productId/:languageId/:categoryId', function (req, res) {
+    parts.getAllPartsByProductId(req.params.productId,
+        req.params.languageId,
+        req.params.categoryId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({

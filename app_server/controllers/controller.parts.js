@@ -7,13 +7,19 @@ module.exports.getPartsById = (id ,callback) =>  {
 
 // Get All Categories
 module.exports.getAllParts = (callback) =>  {
-	parts.find(callback)
-    .populate('productId');
+	parts.find({state:"active"},callback)
+    .populate('productId')
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
 }
 
-module.exports.getAllPartsByProductId = (productId ,callback) =>  {
-	parts.find({productId: productId}, callback);
+module.exports.getAllPartsByProductId = (productId, languageId, categoryId ,callback) =>  {
+	parts.find({productId: productId,languageId:languageId,categoryId:categoryId}, callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
 }
+
+
 
 // Add Category
 module.exports.addParts = async (categoryForm, callback) => {

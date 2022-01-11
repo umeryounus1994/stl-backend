@@ -7,12 +7,16 @@ module.exports.getTextureById = (id ,callback) =>  {
 
 // Get All Categories
 module.exports.getAllTextures = (callback) =>  {
-	texture.find(callback)
-    .populate('partId');
+	texture.find({state:"active"},callback)
+    .populate('partId')
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
 }
 
-module.exports.getAllTexturesByPartsId = (partsId ,callback) =>  {
-	texture.find({partId: partsId}, callback);
+module.exports.getAllTexturesByPartsId = (partsId,languageId,categoryId ,callback) =>  {
+	texture.find({partId: partsId,languageId:languageId,categoryId:categoryId}, callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
 }
 
 // Add Category

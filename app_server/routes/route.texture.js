@@ -38,8 +38,10 @@ router.post('/add', mediaUpload.fields([
 
 });
 
-router.get('/get_textures_by_partsId/:partsId', function (req, res) {
-    texture.getAllTexturesByPartsId(req.params.partsId, function (err, result) {
+router.get('/get_textures_by_partsId/:partsId/:languageId/:categoryId', function (req, res) {
+    texture.getAllTexturesByPartsId(req.params.partsId,
+        req.params.languageId,
+        req.params.categoryId, function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
