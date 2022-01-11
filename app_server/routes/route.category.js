@@ -42,7 +42,33 @@ router.post('/add', mediaUpload.fields([
 
 });
 
+router.get('/get_all', function (req, res) {
+    category.getAllCategoriesWithoutLangaugeId(function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: "Error in Connecting to DB",
+                status: false
+            });
+        }
+        else if(result.length>0){
+            return res.json({
+                message: "category Exist",
+                status: true,
+                data: result
+            });
+        }
+        else{
+            return res.json({ 
+                message: "No Category Exist",
+                status: false,
+                data: result
+            });
+        }
+        
+    });
 
+});
 //Get All categorys List
 router.get('/get_all/:languageId', function (req, res) {
     category.getAllCategories(req.params.languageId,function (err, result) {

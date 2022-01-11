@@ -11,6 +11,11 @@ module.exports.getAllCategories = (langaugeId,callback) =>  {
 	.populate('languageId',{ name: 1, shortName:1 })
 	.populate('categoryId','name');
 }
+module.exports.getAllCategoriesWithoutLangaugeId = (callback) =>  {
+	category.find({state:"active"},callback)
+	.populate('languageId',{ name: 1, shortName:1 })
+	.populate('categoryId','name');
+}
 
 module.exports.getAllByLanguageCategory = (langaugeId, categoryId ,callback) =>  {
 	category.find({languageId:langaugeId,categoryId:categoryId}, callback)
