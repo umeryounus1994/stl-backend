@@ -44,8 +44,8 @@ router.post('/add', mediaUpload.fields([
 
 
 //Get All categorys List
-router.get('/get_all', function (req, res) {
-    category.getAllCategories(function (err, result) {
+router.get('/get_all/:languageId', function (req, res) {
+    category.getAllCategories(req.params.languageId,function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({
