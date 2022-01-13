@@ -1,10 +1,13 @@
 var vuforia = require('vuforia-api');
-const { accessKey,secretKey } = require('../config/config');
+const { serverAccessKey,serverSecretKey } = require('../config/config');
 
 var client = vuforia.client({
-  'accessKey': accessKey,
-  'secretKey': secretKey,
+  'serverAccessKey': serverAccessKey,
+  'serverSecretKey': serverSecretKey,
+  // 'clientAccessKey': clientAccessKey,
+  // 'clientSecretKey': clientSecretKey
 });      
+
 
 var util = vuforia.util();
 
@@ -18,12 +21,13 @@ module.exports = async (file,width, metaData) => new Promise(
         'active_flag': true,
         'application_metadata': util.encodeBase64(metaData)
       };
-      
+
       client.addTarget(target, function (error, result) {
-      
+      console.log('errr', error);
         if (error) {
           resolve(error.message);
         } else {
+          console.log('resss',result);
           var resp = {
             targetId : result.target_id,
             targetName :targetName
@@ -31,7 +35,7 @@ module.exports = async (file,width, metaData) => new Promise(
             resolve(resp);
         }
       });
-    }).catch(console.log);
+    }).catch("logs are here",console.log);
 
     function makeid(length) {
       var result           = '';
