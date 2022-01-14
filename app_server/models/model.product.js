@@ -36,9 +36,9 @@ const productSchema = new schema({
         type: String,
         default:""
     },
-    variationId:{
-        type: mongoose.Schema.Types.ObjectId, ref: 'Variation',
-    },
+    // variationId:{
+    //     type: mongoose.Schema.Types.ObjectId, ref: 'Variation',
+    // },
     description:{
         type: String,
         default:""
