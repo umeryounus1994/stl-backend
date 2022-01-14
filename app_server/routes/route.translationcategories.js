@@ -65,7 +65,7 @@ router.patch('/update/:categoryId',function (req, res) {
     var categoryId = req.params.categoryId;
 
 
-    translationcategories.updateTexture(categoryId, categoryForm, {new: true}, function (err, categoryResult) {
+    translationcategories.updateCategory(categoryId, categoryForm, {new: true}, function (err, categoryResult) {
         if (err) {
             console.log(err);
             return res.status(500).json({

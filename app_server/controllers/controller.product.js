@@ -4,7 +4,7 @@ var product =require('../models/model.product.js');
 module.exports.getProductById = (id,languageId,langCatId ,callback) =>  {
 	product.find({_id:id,languageId:languageId,languageCategoryId:langCatId}, callback)
 	.populate('categoryId')
-    .populate('variationId')
+    // .populate('variationId')
 	.populate('languageId',{ name: 1, shortName:1 })
 	.populate('languageCategoryId','name');
 }
@@ -13,7 +13,7 @@ module.exports.getProductById = (id,languageId,langCatId ,callback) =>  {
 module.exports.getAllProductsByCategoryId = (CategoryId,languageId,langCatId,callback) =>  {
 	product.find({categoryId: CategoryId,languageId:languageId,languageCategoryId:langCatId}, callback)
 	.populate('categoryId')
-    .populate('variationId')
+    // .populate('variationId')
 	.populate('languageId',{ name: 1, shortName:1 })
 	.populate('languageCategoryId','name');
 }
@@ -21,7 +21,7 @@ module.exports.getAllProductsByCategoryId = (CategoryId,languageId,langCatId,cal
 module.exports.getAllByLanguageCategory = (langaugeId, categoryId ,callback) =>  {
 	product.find({languageId:langaugeId,languageCategoryId:categoryId}, callback)
 	.populate('categoryId')
-    .populate('variationId')
+    // .populate('variationId')
 	.populate('languageId',{ name: 1, shortName:1 })
 	.populate('languageCategoryId','name');
 }
@@ -30,7 +30,7 @@ module.exports.getAllByLanguageCategory = (langaugeId, categoryId ,callback) => 
 module.exports.getAllProducts = (callback) =>  {
 	product.find(callback)
 	.populate('categoryId')
-    .populate('variationId')
+    // .populate('variationId')
 	.populate('languageId',{ name: 1, shortName:1 })
 	.populate('languageCategoryId','name');
 }
