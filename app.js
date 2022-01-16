@@ -83,11 +83,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-    console.log('Server is up and running on port number ' + port);
-});
+app.listen(port, "0.0.0.0");
 
 
 
