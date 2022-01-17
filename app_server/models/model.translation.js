@@ -5,6 +5,9 @@ const schema = mongoose.Schema;
 // Product Schema
 
 const translationSchema = new schema({   
+    actualText:{
+        type: String
+    },
     translatedText:{
         type: String
     },
