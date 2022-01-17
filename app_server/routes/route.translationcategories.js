@@ -60,12 +60,11 @@ router.get('/get_all', function (req, res) {
 
 
 //Update Pin Category
-router.patch('/update/:categoryId',function (req, res) {
+router.post('/update/',function (req, res) {
     var categoryForm = req.body;
-    var categoryId = req.params.categoryId;
+    console.log(categoryForm);
 
-
-    translationcategories.updateCategory(categoryId, categoryForm, {new: true}, function (err, categoryResult) {
+    translationcategories.updateCategory(categoryForm.categoryId, categoryForm, function (err, categoryResult) {
         if (err) {
             console.log(err);
             return res.status(500).json({
