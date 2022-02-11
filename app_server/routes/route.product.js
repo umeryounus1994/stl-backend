@@ -13,19 +13,16 @@ router.post('/add', mediaUpload.fields([
     },
     {
         name: 'productImage', maxCount: 1
-    },
-    {
-        name: 'scannedImage', maxCount: 1
     }
   ]), function (req, res) {
     var productForm = req.body;
     
 
-    if(req.files.scannedImage){
+   // if(req.files.scannedImage){
         productForm.model = req.files.model[0].location;
         productForm.productImage = req.files.productImage[0].location;
-        productForm.scannedImage = req.files.scannedImage[0].location;
-    }
+      //  productForm.scannedImage = req.files.scannedImage[0].location;
+    //}
   
     product.addProduct(productForm  ,async function (err, result) {
         if (err) {
@@ -34,45 +31,51 @@ router.post('/add', mediaUpload.fields([
                 message: "Error in Connecting to DB",
                 status: false
             });
+           
         }
-        else{
-        var fileName =req.files.scannedImage[0].originalname;
-        await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
-        var vuforiaMetaData = result._id + "*" + productForm.name + "*" +
-        productForm.model + "*" + productForm.productImage + "*" +
-        productForm.defaultScaling;
-        let respp = await vuforiaUpload('./images/'+fileName,50,vuforiaMetaData);
-        if(respp == "TargetNameExist"){
-            return res.status(500).json({
-                message: "Target with same name exist",
-                status: false
-            });
-        }
-        if(respp == "BadImage"){
-            return res.status(500).json({
-                message: "Bad Target Image",
-                status: false
-            });
-        }
-        if(respp == "Failed"){
-            return res.status(500).json({
-                message: "Failed to Upload Image to vuforia",
-                status: false
-            });
-        }
-        var form = {
-            targetId : respp.targetId,
-            targetName : respp.targetName
-        };
-        product.updateProduct(result._id, form, {new: true}, function (errr, itemResult) {
-            return res.json({
-                message: "Product Added successfully",
-                status: true, 
-                data: result
-            });
+        return res.json({
+            message: "Product Added successfully",
+            status: true, 
+            data: result
         });
+        //else{
+      //  var fileName =req.files.scannedImage[0].originalname;
+       // await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
+       // var vuforiaMetaData = result._id + "*" + productForm.name + "*" +
+       // productForm.model + "*" + productForm.productImage + "*" +
+       // productForm.defaultScaling;
+        //let respp = await vuforiaUpload('./images/'+fileName,50,vuforiaMetaData);
+        // if(respp == "TargetNameExist"){
+        //     return res.status(500).json({
+        //         message: "Target with same name exist",
+        //         status: false
+        //     });
+        // }
+        // if(respp == "BadImage"){
+        //     return res.status(500).json({
+        //         message: "Bad Target Image",
+        //         status: false
+        //     });
+        // }
+        // if(respp == "Failed"){
+        //     return res.status(500).json({
+        //         message: "Failed to Upload Image to vuforia",
+        //         status: false
+        //     });
+        // }
+        // var form = {
+        //     targetId : respp.targetId,
+        //     targetName : respp.targetName
+        // };
+        // product.updateProduct(result._id, form, {new: true}, function (errr, itemResult) {
+        //     return res.json({
+        //         message: "Product Added successfully",
+        //         status: true, 
+        //         data: result
+        //     });
+        // });
         
-        }
+       // }
     });
 });
 
@@ -203,45 +206,46 @@ router.patch('/update/:productId',  mediaUpload.fields([
     },
     {
         name: 'productImage', maxCount: 1
-    },
-    {
-        name: 'scannedImage', maxCount: 1
     }
+    // ,
+    // {
+    //     name: 'scannedImage', maxCount: 1
+    // }
   ]),async function (req, res) {
     var productForm = req.body;
     var productId = req.params.productId;
-    if(req.files.scannedImage){
-    var fileName =req.files.scannedImage[0].originalname;
-    await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
-    var vuforiaMetaData = productId + "*" + productForm.name + "*" +
-        productForm.model + "*" + productForm.productImage + "*" +
-        productForm.defaultScaling;
+    // if(req.files.scannedImage){
+    // var fileName =req.files.scannedImage[0].originalname;
+    // await getRemoteFile('./images/'+fileName,req.files.scannedImage[0].location);
+    // var vuforiaMetaData = productId + "*" + productForm.name + "*" +
+    //     productForm.model + "*" + productForm.productImage + "*" +
+    //     productForm.defaultScaling;
         
-    let respp = await vuforiaUpload('./images/'+fileName,50,vuforiaMetaData);
-    if(respp == "TargetNameExist"){
-        return res.status(500).json({
-            message: "Target with same name exist",
-            status: false
-        });
-    }
-    if(respp == "BadImage"){
-        return res.status(500).json({
-            message: "Bad Target Image",
-            status: false
-        });
-    }
-    if(respp == "Failed"){
-        return res.status(500).json({
-            message: "Failed to Upload Image to vuforia",
-            status: false
-        });
-    }
-        productForm.model = req.files.model[0].location;
-        productForm.targetId = respp.targetId;
-        productForm.targetName = respp.targetName;
-        productForm.productImage = req.files.productImage[0].location;
-        productForm.scannedImage = req.files.scannedImage[0].location;
-    }  
+    // let respp = await vuforiaUpload('./images/'+fileName,50,vuforiaMetaData);
+    // if(respp == "TargetNameExist"){
+    //     return res.status(500).json({
+    //         message: "Target with same name exist",
+    //         status: false
+    //     });
+    // }
+    // if(respp == "BadImage"){
+    //     return res.status(500).json({
+    //         message: "Bad Target Image",
+    //         status: false
+    //     });
+    // }
+    // if(respp == "Failed"){
+    //     return res.status(500).json({
+    //         message: "Failed to Upload Image to vuforia",
+    //         status: false
+    //     });
+    // }
+    //     productForm.model = req.files.model[0].location;
+    //     productForm.targetId = respp.targetId;
+    //     productForm.targetName = respp.targetName;
+    //     productForm.productImage = req.files.productImage[0].location;
+    //     productForm.scannedImage = req.files.scannedImage[0].location;
+    // }  
     if(req.files.productImage) {
         productForm.productImage = req.files.productImage[0].location;
     }
