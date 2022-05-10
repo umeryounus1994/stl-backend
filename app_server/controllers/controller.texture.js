@@ -14,7 +14,8 @@ module.exports.getAllTextures = (callback) =>  {
 }
 
 module.exports.getAllTexturesByPartsId = (partsId,languageId,categoryId ,callback) =>  {
-	texture.find({partId: partsId,languageId:languageId,categoryId:categoryId}, callback)
+	texture.find({partId: partsId,languageId:languageId,categoryId:categoryId,state:"active"}, callback)
+	.populate('partId')
 	.populate('languageId',{ name: 1, shortName:1 })
 	.populate('categoryId','name');
 }

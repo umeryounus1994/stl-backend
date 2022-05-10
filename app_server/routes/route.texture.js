@@ -131,14 +131,22 @@ router.get('/get_by_id/:textureId', function (req, res) {
 //Update Pin Category
 router.patch('/update/:textureId', mediaUpload.fields([
     {
-        name: 'imageFile', maxCount: 1
+        name: 'textureFiles', maxCount: 20
       }
   ]),function (req, res) {
     var categoryForm = req.body;
     var textureId = req.params.textureId;
 
-    if(req.files.imageFile){
-        categoryForm.imageFile = req.files.imageFile[0].location;
+    var textureFiles = [];
+  
+
+    if(req.files.textureFiles){
+        req.files.textureFiles.forEach((element) => {
+            var obj = {};
+            obj["imagePath"] = element.location;
+            textureFiles.push(obj);
+          });
+        categoryForm.textureFiles = textureFiles;
     }
 
     texture.updateTexture(textureId, categoryForm, {new: true}, function (err, categoryResult) {

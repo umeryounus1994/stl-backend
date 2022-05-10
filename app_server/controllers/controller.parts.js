@@ -14,7 +14,7 @@ module.exports.getAllParts = (callback) =>  {
 }
 
 module.exports.getAllPartsByProductId = (productId, languageId, categoryId ,callback) =>  {
-	parts.find({productId: productId,languageId:languageId,categoryId:categoryId}, callback)
+	parts.find({productId: productId,languageId:languageId,categoryId:categoryId,state:"active"}, callback)
 	.populate('languageId',{ name: 1, shortName:1 })
 	.populate('categoryId','name');
 }
